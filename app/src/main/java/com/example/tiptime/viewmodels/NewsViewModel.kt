@@ -37,25 +37,12 @@ class NewsViewModel  : ViewModel() {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
 /*
 
     fun getNews() {
        newsRepository.getNews()
     }
 */
-
-
 /*
 
     fun observeArticlesLiveData(): LiveData<List<ArticleX>> {

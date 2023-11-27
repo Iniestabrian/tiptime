@@ -1,11 +1,10 @@
 package com.example
 
 import android.app.Application
-import com.example.di.AppComponent
-import com.example.di.AppModule
-import com.example.di.DaggerAppComponent
+import com.example.tiptime.di.AppComponent
+import com.example.tiptime.di.AppModule
+import com.example.tiptime.di.DaggerAppComponent
 import dagger.android.AndroidInjector
-import dagger.android.DaggerApplication
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import javax.inject.Inject

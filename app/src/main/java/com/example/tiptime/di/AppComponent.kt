@@ -1,4 +1,4 @@
-package com.example.di
+package com.example.tiptime.di
 
 import com.example.MyApplication
 import dagger.Component
@@ -7,7 +7,7 @@ import javax.inject.Singleton
 
 
 @Singleton
-@Component(modules = [AndroidInjectionModule::class,NewsFragmentModule::class,AppModule::class])
+@Component(modules = [AndroidInjectionModule::class, NewsFragmentModule::class, AppModule::class])
 interface AppComponent {
 
     fun inject(application: MyApplication)

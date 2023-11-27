@@ -1,4 +1,4 @@
-package com.example.di
+package com.example.tiptime.di
 
 import com.example.tiptime.NewsFragment
 import dagger.Module
