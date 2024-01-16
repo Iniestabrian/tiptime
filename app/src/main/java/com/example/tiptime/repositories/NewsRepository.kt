@@ -14,18 +14,22 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class NewsRepository  {
 
-    private val retrofitInstance = RetrofitInstance()
+
+class NewsRepository @Inject constructor (private val api : NewsApiService) : BaseRepository() {
+
+  // private val retrofitInstance = RetrofitInstance()
 
     private val apiKey = "c9242f1de0b14fddb655956487b707f3"
 
     suspend fun getNews(): List<ArticleX> {
         return withContext(Dispatchers.IO) {
             try {
-                val apiService = retrofitInstance.buildApi(NewsApiService::class.java)
-                val response = apiService.getNews("us", "technology", 20, apiKey)
+                //val apiService = retrofitInstance.buildApi(NewsApiService::class.java)
+                val response = api.getNews("us", "technology", 20, apiKey)
+               // val resp = safeApiCall { api.getNews("us", "technology", 20, apiKey)}
                 if (response.isSuccessful) {
                     response.body()?.articles ?: emptyList()
                 } else {
@@ -39,4 +43,6 @@ class NewsRepository  {
         }
     }
 }
+
+
 

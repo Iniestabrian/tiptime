@@ -1,12 +1,15 @@
 package com.example.tiptime.remote
 
 import okhttp3.CertificatePinner
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 
-class RetrofitInstance {
+
+
+class RetrofitInstance @Inject constructor() {
 
     companion object {
         private const val BASE_URL = "https://newsapi.org/v2/"
@@ -18,12 +21,11 @@ class RetrofitInstance {
             .add(HOSTNAME, CERTIFICATE_PIN)
             .build()
 
+
         private val okHttpClient = OkHttpClient.Builder()
             .certificatePinner(certificatePinner)
             .build()
     }
-
-
 
 
 
@@ -35,4 +37,5 @@ class RetrofitInstance {
             .build()
             .create(api)
     }
+
 }

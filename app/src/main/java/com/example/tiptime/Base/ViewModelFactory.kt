@@ -1,4 +1,3 @@
-/*
 package com.example.tiptime.Base
 
 import androidx.lifecycle.ViewModel
@@ -6,8 +5,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.tiptime.repositories.BaseRepository
 import com.example.tiptime.repositories.NewsRepository
 import com.example.tiptime.viewmodels.NewsViewModel
+import javax.inject.Inject
 
-class ViewModelFactory( private  val repository: BaseRepository): ViewModelProvider.NewInstanceFactory() {
+
+@Suppress("UNCHECKED_CAST")
+class ViewModelFactory @Inject constructor( private  val repository: BaseRepository): ViewModelProvider.NewInstanceFactory() {
 
     @Override
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -18,4 +20,5 @@ class ViewModelFactory( private  val repository: BaseRepository): ViewModelProvi
 
         }
     }
-}*/
+
+}

@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.tiptime.data.ArticleX
 import com.example.tiptime.data.ArticlesList
@@ -14,9 +15,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class NewsViewModel  : ViewModel() {
+class NewsViewModel @Inject constructor (private val repository: NewsRepository) :ViewModel(){
 
-    private  var newsRepository = NewsRepository()
+
 
 
     private  var articlesLiveData = MutableLiveData<List<ArticleX>>()
@@ -27,7 +28,7 @@ class NewsViewModel  : ViewModel() {
 
     fun getNews() {
         viewModelScope.launch {
-            val articles = newsRepository.getNews()
+            val articles = repository.getNews()
             articlesLiveData.value = articles
         }
     }
