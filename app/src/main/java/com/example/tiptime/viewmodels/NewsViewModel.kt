@@ -38,12 +38,25 @@ class NewsViewModel @Inject constructor (private val repository: NewsRepository)
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
 /*
 
     fun getNews() {
        newsRepository.getNews()
     }
 */
+
+
 /*
 
     fun observeArticlesLiveData(): LiveData<List<ArticleX>> {
