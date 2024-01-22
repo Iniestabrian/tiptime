@@ -11,5 +11,4 @@ sealed class Resource< out T> {
         val errorBody: ResponseBody?
     ): Resource<Nothing>()
 
-
 }

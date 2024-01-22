@@ -10,16 +10,12 @@ import javax.inject.Singleton
 
 @Module
 abstract class RepositoryModule {
-/*
-    @Multibinds
-    abstract fun bindBaseRepositories(): Set<BaseRepository>*/
+    /*
+        @Multibinds
+        abstract fun bindBaseRepositories(): Set<BaseRepository>*/
 
     @Singleton
     @Binds
     abstract fun bindBaseRepository(repository: NewsRepository): BaseRepository
 
 }
-
-
-
-
