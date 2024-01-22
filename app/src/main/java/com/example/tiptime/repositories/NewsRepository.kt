@@ -24,7 +24,7 @@ class NewsRepository @Inject constructor (private val api : NewsApiService) : Ba
 
     private val apiKey = "c9242f1de0b14fddb655956487b707f3"
 
-    suspend fun getNews(): List<ArticleX> {
+    /*suspend fun getNews(): List<ArticleX> {
         return withContext(Dispatchers.IO) {
             try {
                 //val apiService = retrofitInstance.buildApi(NewsApiService::class.java)
@@ -41,6 +41,11 @@ class NewsRepository @Inject constructor (private val api : NewsApiService) : Ba
                 emptyList()
             }
         }
+    }*/
+
+
+    suspend fun getNews() = safeApiCall {
+        api.getNews("us", "technology", 20, apiKey)
     }
 }
 
