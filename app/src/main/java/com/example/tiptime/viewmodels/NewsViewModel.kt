@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.tiptime.data.ArticleX
 import com.example.tiptime.data.ArticlesList
 import com.example.tiptime.remote.NewsApiService
+import com.example.tiptime.remote.Resource
 import com.example.tiptime.remote.RetrofitInstance
 import com.example.tiptime.repositories.NewsRepository
 import kotlinx.coroutines.Dispatchers
@@ -23,19 +24,36 @@ class NewsViewModel @Inject constructor (private val repository: NewsRepository)
     private  var articlesLiveData = MutableLiveData<List<ArticleX>>()
 
 
-
-
-
     fun getNews() {
         viewModelScope.launch {
-            val articles = repository.getNews()
-            articlesLiveData.value = articles
+            when (val result = repository.getNews()) {
+                is Resource.Success -> {
+                    // Handle successful result
+                    val articles = result.value.articles
+                    articlesLiveData.value = articles
+
+                    // Do something with the articles
+                }
+                is Resource.Failure -> {
+                    // Handle failure
+                    if (result.isNetworkError) {
+                        // Handle network error
+                    } else {
+                        // Handle other errors
+                        val errorCode = result.errorCode
+                        val errorBody = result.errorBody
+                        // Do something with errorCode and errorBody
+                    }
+                }
+            }
         }
+
     }
 
     fun observeArticlesLiveData(): LiveData<List<ArticleX>> {
         return articlesLiveData
     }
+
 
 
 /*
@@ -44,6 +62,8 @@ class NewsViewModel @Inject constructor (private val repository: NewsRepository)
        newsRepository.getNews()
     }
 */
+
+
 /*
 
     fun observeArticlesLiveData(): LiveData<List<ArticleX>> {
