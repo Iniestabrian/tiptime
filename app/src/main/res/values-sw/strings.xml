@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tip Time</string>
+    <string name="cost_of_service">Gharama ya Huduma</string>
+    <string name="how_was_the_service">Huduma ilikuwaje?</string>
+    <string name="amazing_service">Nzuri sana (20%)</string>
+    <string name="good_service">Nzuri (18%)</string>
+    <string name="ok_service">Sawa (15%)</string>
+    <string name="round_up_tip">Je, unataka round up tip?</string>
+    <string name="calculate">Hesabu</string>
+    <string name="tip_amount">Kiasi cha Tip: %s</string>
+    <string name="news">Taarifa</string>
+    <string name="select_language">Chagua Lugha</string>
+    <string name="latest_news">Habari Za Hivi Karibuni</string>
+
+</resources>

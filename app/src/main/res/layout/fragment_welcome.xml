@@ -7,6 +7,34 @@
     tools:context=".WelcomeFragment">
 
 
+
+
+    <TextView
+        android:id="@+id/textSelectLangeuage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/redOrange"
+        android:text="@string/select_language"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="20dp"
+        />
+
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnTiptime"
+     />
+
+
     <Button
         android:id="@+id/btnTiptime"
         android:layout_width="wrap_content"
@@ -15,7 +43,7 @@
         android:layout_marginTop="250dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="tip time"
+        android:text="@string/app_name"
 
         />
 
@@ -27,7 +55,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="20dp"
-        android:text="News"
+        android:text="@string/news"
 
         />
 </androidx.constraintlayout.widget.ConstraintLayout>
