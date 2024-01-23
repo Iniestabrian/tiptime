@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 
-class RetrofitInstance {
+class  RetrofitInstance @Inject constructor(){
 
     companion object {
         private const val BASE_URL = "https://newsapi.org/v2/"
