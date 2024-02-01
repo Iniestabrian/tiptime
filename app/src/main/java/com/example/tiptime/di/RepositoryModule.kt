@@ -4,6 +4,7 @@ import com.example.tiptime.repositories.BaseRepository
 import com.example.tiptime.repositories.NewsRepository
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.multibindings.Multibinds
 import javax.inject.Singleton
 
@@ -17,5 +18,6 @@ abstract class RepositoryModule {
     @Singleton
     @Binds
     abstract fun bindBaseRepository(repository: NewsRepository): BaseRepository
+
 
 }

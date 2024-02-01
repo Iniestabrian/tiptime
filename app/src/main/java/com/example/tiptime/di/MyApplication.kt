@@ -1,11 +1,13 @@
 package com.example.tiptime.di
 
 import android.app.Application
+import dagger.android.AndroidInjection.inject
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import javax.inject.Inject
+
 
 class MyApplication : DaggerApplication(){
 
@@ -13,9 +15,16 @@ class MyApplication : DaggerApplication(){
     lateinit var mInjector: DispatchingAndroidInjector<Any>
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerAppComponent.create().apply {
+        val context = applicationContext
+        val contextModule = ContextModule(context)
+        return DaggerMyComponent.factory()
+            .create(this,contextModule)
+            .apply {
+                inject(this@MyApplication)
+            }
+       /* return DaggerMyComponent.create().apply {
             inject(this@MyApplication)
-        }
+        }*/
     }
 
 
