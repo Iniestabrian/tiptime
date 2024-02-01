@@ -1,18 +1,15 @@
 package com.example.tiptime.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.tiptime.data.ArticleX
-import com.example.tiptime.data.ArticlesList
-import com.example.tiptime.remote.NewsApiService
 import com.example.tiptime.remote.Resource
-import com.example.tiptime.remote.RetrofitInstance
 import com.example.tiptime.repositories.NewsRepository
-import kotlinx.coroutines.Dispatchers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,7 +27,19 @@ class NewsViewModel @Inject constructor (private val repository: NewsRepository)
                 is Resource.Success -> {
                     // Handle successful result
                     val articles = result.value.articles
+
+
                     articlesLiveData.value = articles
+
+                    val result =  result.value
+                    repository.insertArticles(result)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            // Insertion successful
+                        }, { error ->
+                            // Handle insertion error
+                        })
 
                     // Do something with the articles
                 }
@@ -38,6 +47,8 @@ class NewsViewModel @Inject constructor (private val repository: NewsRepository)
                     // Handle failure
                     if (result.isNetworkError) {
                         // Handle network error
+                        articlesLiveData.value= getAllArticles().value
+
                     } else {
                         // Handle other errors
                         val errorCode = result.errorCode
@@ -45,6 +56,8 @@ class NewsViewModel @Inject constructor (private val repository: NewsRepository)
                         // Do something with errorCode and errorBody
                     }
                 }
+
+                else -> {}
             }
         }
 
@@ -52,6 +65,11 @@ class NewsViewModel @Inject constructor (private val repository: NewsRepository)
 
     fun observeArticlesLiveData(): LiveData<List<ArticleX>> {
         return articlesLiveData
+    }
+
+    // Function to fetch articles and observe them
+    fun getAllArticles(): LiveData<List<ArticleX>> {
+        return repository.getAllArticles()
     }
 
 

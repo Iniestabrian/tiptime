@@ -50,12 +50,17 @@ class NewsFragment :BaseFragment<NewsViewModel,FragmentNewsBinding,NewsRepositor
     }
 
     fun observeArticlesLiveData(){
-       viewModel.observeArticlesLiveData().observe(viewLifecycleOwner,object :Observer<List<ArticleX>>{
-            override fun onChanged(value: List<ArticleX>) {
+       viewModel.observeArticlesLiveData().observe(viewLifecycleOwner,object :Observer<List<ArticleX>?>{
+            override fun onChanged(value: List<ArticleX>?) {
                 try {
-                    val adapter = ArticlesAdapter( requireContext(),value)
-                    adapter.notifyDataSetChanged()
-                    binding.recyArticles.adapter = adapter
+                    if (value != null) { // Check for null value
+                        val adapter = ArticlesAdapter(requireContext(), value)
+                        adapter.notifyDataSetChanged()
+                        binding.recyArticles.adapter = adapter
+                    } else {
+                        Log.e("RecyclerView", "List<ArticleX> is null")
+                        // Handle the case where value is null, e.g., show an empty state
+                    }
 
                 }catch (e:Exception){
                     Log.e("RecyclerView", "Error setting up adapter: ${e.message}")
@@ -72,7 +77,7 @@ class NewsFragment :BaseFragment<NewsViewModel,FragmentNewsBinding,NewsRepositor
         container: ViewGroup?
     )=FragmentNewsBinding.inflate(inflater,container,false)
 
-    override fun getFragmentRepository()= NewsRepository(remoteDataSource.buildApi(NewsApiService::class.java))
+   // override fun getFragmentRepository()= NewsRepository(remoteDataSource.buildApi(NewsApiService::class.java))
 
 
 }

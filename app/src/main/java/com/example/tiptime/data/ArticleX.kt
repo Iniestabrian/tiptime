@@ -1,7 +1,10 @@
 package com.example.tiptime.data
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
 data class ArticleX(
-    val author: Any,
+    val author: String,
     val content: String,
     val description: String,
     val publishedAt: String,

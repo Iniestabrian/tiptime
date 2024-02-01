@@ -1,11 +1,13 @@
 package com.example.tiptime.di
 
+import android.content.Context
 import com.example.tiptime.MainActivity
+import dagger.BindsInstance
 import dagger.Component
-import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
+
 
 /*
 @Singleton
@@ -17,22 +19,25 @@ interface AppComponent {
 
 }*/
 
-
-
-
-
 @Singleton
-@Component(modules = [AndroidSupportInjectionModule::class, AppModule::class, NewsFragmentModule::class,RepositoryModule::class])
-interface AppComponent : AndroidInjector<MyApplication> {
+@Component(modules = [AndroidSupportInjectionModule::class, AppModule::class, NewsFragmentModule::class,RepositoryModule::class,ContextModule::class])
+interface MyComponent : AndroidInjector<MyApplication> {
 
-    @Component.Builder
+/*    @Component.Builder
     interface Builder {
+       *//* @BindsInstance
+        fun context(context: Context): Builder*//*
+        fun build(): MyComponent
+    }*/
 
-        fun build(): AppComponent
+    @Component.Factory
+    interface Factory {
+        fun create(@BindsInstance application: MyApplication,contextModule: ContextModule): MyComponent
     }
 
     // Add the correct method for injecting MainActivity
     fun inject(activity: MainActivity)
+
 }
 
 
