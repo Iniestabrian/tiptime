@@ -1,8 +1,11 @@
 package com.example.tiptime.repositories
 
+import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
+import androidx.lifecycle.toLiveData
 import com.example.tiptime.data.ArticleR
 import com.example.tiptime.data.ArticleX
 import com.example.tiptime.data.ArticlesDao
@@ -77,47 +80,37 @@ class NewsRepository @Inject constructor (private val api: NewsApiService, priva
 
     // In your repository
     fun getAllArticles(): LiveData<List<ArticleX>> {
-        val articlesLiveData = MutableLiveData<List<ArticleX>>()
-        val disposable = CompositeDisposable()
-
-        disposable.add(
-            articlesDao.getArticles()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map { articles ->
-                    articles.map { articleR ->
-                        // Convert ArticleR to ArticleX
-                        ArticleX(
-                            author = articleR.author!!,
-                            content = articleR.content!!,
-                            description = articleR.description!!,
-                            publishedAt = articleR.publishedAt!!,
-                            source = Source(
-                                id = articleR.sourceId,
-                                name = articleR.sourceName!!
-                            ),
-                            title = articleR.title!!,
-                            url = articleR.url!!,
-                            urlToImage = articleR.urlToImage!!
-                        )
-                    }
-                }
-                .subscribe({ transformedArticles ->
-                    // Update the MutableLiveData with transformed articles
-                    articlesLiveData.value = transformedArticles
-                }, { error ->
-                    // Handle any errors
-                })
-        )
-
-        return articlesLiveData
+        return articlesDao.getArticles().map { articles ->
+            articles.map { articleR ->
+                ArticleX(
+                    author = articleR.author ?: "",
+                    content = articleR.content ?: "",
+                    description = articleR.description ?: "",
+                    publishedAt = articleR.publishedAt ?: "",
+                    source = Source(
+                        id = articleR.sourceId ?: "",
+                        name = articleR.sourceName ?: ""
+                    ),
+                    title = articleR.title ?: "",
+                    url = articleR.url ?: "",
+                    urlToImage = articleR.urlToImage ?: ""
+                )
+            }
+        }
     }
 
 
 
 
-
 }
+
+
+
+
+
+
+
+
 
 
 

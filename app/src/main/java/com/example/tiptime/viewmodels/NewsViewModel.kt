@@ -1,5 +1,6 @@
 package com.example.tiptime.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,12 +14,20 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class NewsViewModel @Inject constructor (private val repository: NewsRepository) :ViewModel(){
+class NewsViewModel @Inject constructor (private val repository: NewsRepository) :ViewModel() {
 
 
+    private var articlesLiveData = MutableLiveData<List<ArticleX>>()
 
 
-    private  var articlesLiveData = MutableLiveData<List<ArticleX>>()
+    fun observeRoomsLiveData() {
+        repository.getAllArticles().observeForever { articles ->
+            // Log the articles
+            Log.d("RoomDBOfflineData", "Articles: $articles")
+            // Update the LiveData if needed
+            articlesLiveData.value = articles
+        }
+    }
 
 
     fun getNews() {
@@ -31,34 +40,47 @@ class NewsViewModel @Inject constructor (private val repository: NewsRepository)
 
                     articlesLiveData.value = articles
 
-                    val result =  result.value
+                    val result = result.value
                     repository.insertArticles(result)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
-                            // Insertion successful
+
+                            Log.e("RoomDB", "Data inserted to room")
+
                         }, { error ->
                             // Handle insertion error
-                        })
+                            Log.e("RoomDB", "Could not insert data to room")
 
+                        })
                     // Do something with the articles
+                   // Log.e("RoomDB",observeRoomsLiveData().toString())
                 }
+
+
                 is Resource.Failure -> {
                     // Handle failure
                     if (result.isNetworkError) {
                         // Handle network error
-                        articlesLiveData.value= getAllArticles().value
+                        observeRoomsLiveData()
+                       // Log.e("RoomDBData", articlesLiveData.value.toString())
 
                     } else {
                         // Handle other errors
                         val errorCode = result.errorCode
                         val errorBody = result.errorBody
+
+                        Log.e("RoomDBError", errorBody.toString())
+
                         // Do something with errorCode and errorBody
                     }
                 }
 
+
                 else -> {}
             }
+
+
         }
 
     }
@@ -67,10 +89,15 @@ class NewsViewModel @Inject constructor (private val repository: NewsRepository)
         return articlesLiveData
     }
 
-    // Function to fetch articles and observe them
+    /*// Function to fetch articles and observe them
     fun getAllArticles(): LiveData<List<ArticleX>> {
+
+
         return repository.getAllArticles()
-    }
+    }*/
+
+
+}
 
 
 
@@ -90,4 +117,3 @@ class NewsViewModel @Inject constructor (private val repository: NewsRepository)
 */
 
 
-}
