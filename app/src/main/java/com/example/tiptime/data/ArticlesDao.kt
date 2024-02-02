@@ -1,5 +1,6 @@
 package com.example.tiptime.data
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -13,5 +14,8 @@ interface ArticlesDao {
     fun insertArticles(articles: List<ArticleR>)
 
     @Query("SELECT * FROM News_table")
-    fun getArticles(): Flowable<List<ArticleR>>
+    fun gettArticles(): Flowable<List<ArticleR>>
+
+    @Query("SELECT * FROM News_table")
+    fun getArticles(): LiveData<List<ArticleR>>
 }
